@@ -12,10 +12,10 @@
         private $produtos;
 
         public function __construct($idVenda=null, $total=0, $cliente=null, $vendedor=null, $produtos=[]){
-            $this->idVenda  = $idVenda;
-            $this->total    = $total;
-            $this->cliente  = $cliente;
-            $this->vendedor = $vendedor;
+            $this->idVenda   = $idVenda;
+            $this->total     = $total;
+            $this->cliente   = $cliente;
+            $this->vendedor  = $vendedor;
             $this->produtos  = $produtos;
         }
 
@@ -24,13 +24,6 @@
         }
         public function getIdVenda(){
             return $this->idVenda;
-        }
-
-        public function setTotal($total){
-            $this->total = $total;
-        }
-        public function getTotal(){
-            return $this->total;
         }
 
         public function setCliente($cliente){
@@ -56,7 +49,7 @@
                 $this->produtos[] = $vendaProduto;
             }            
         }
-        public function getProdutos(){
+        public function getProdutos(){  //esse getProduto() trará uma instancia de VendaProduto
             return $this->produtos;
         }
 
@@ -64,8 +57,15 @@
             return array_keys(get_object_vars($this));
         }
 
-        public function calcularTotal(){            
-
+        public function calcularTotal(){   //total da venda         
+            $total = 0;
+            foreach($this->produtos as $p){
+                $total += ($p->getProduto()->getPreco() * $p->getQuantidade())*(1 - $p->getDesconto());
+            }
+            $this->total = $total;
+        }
+        public function getTotal(){
+            return $this->total;
         }
     }   
 ?>
